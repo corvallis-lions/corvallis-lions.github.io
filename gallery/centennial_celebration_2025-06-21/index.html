@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centennial Celebration Gallery</title>
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+  <style>
+    body { font-family: sans-serif; background: #f8f8f8; margin: 0; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+    .gallery-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .thumb-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #eee;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .caption {
+      min-height: 48px;
+      max-height: 64px;
+      padding: 12px;
+      font-size: 1em;
+      color: #333;
+      background: #fafafa;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center; margin-top:24px;">Centennial Celebration 2025-06-21</h1>
+  <div class="gallery" id="gallery">
+    <!-- Gallery items will be inserted here by JS -->
+  </div>
+
+  <!-- PhotoSwipe Core JS -->
+  <script src="https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js" type="module"></script>
+  <script type="module">
+    // Fetch images.json and build the gallery dynamically
+    async function buildGallery() {
+      const resp = await fetch('images.json');
+      const images = await resp.json();
+      const gallery = document.getElementById('gallery');
+      images.forEach((img, idx) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `
+          <div class="thumb-wrapper">
+            <a href="${img.src}" data-pswp-width="${img.w}" data-pswp-height="${img.h}" data-pswp-caption="${img.caption}">
+              <img src="${img.src}" alt="Photo ${idx+1}">
+            </a>
+          </div>
+          <div class="caption">${img.caption || ''}</div>
+        `;
+        gallery.appendChild(item);
+      });
+
+      // Initialize PhotoSwipe after gallery is built
+      const PhotoSwipeLightbox = (await import('https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js')).default;
+      const lightbox = new PhotoSwipeLightbox({
+        gallery: '#gallery',
+        children: 'a',
+        pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.min.js'),
+        showHideAnimationType: 'fade',
+      });
+
+      // Add caption UI at the bottom of the photo
+      lightbox.on('uiRegister', function() {
+        lightbox.pswp.ui.registerElement({
+          name: 'custom-caption',
+          order: 9,
+          isButton: false,
+          appendTo: 'root',
+          html: '',
+          onInit: (el, pswp) => {
+            pswp.on('change', () => {
+              const currSlide = pswp.currSlide;
+              let caption = '';
+              if (currSlide && currSlide.data && currSlide.data.element) {
+                caption = currSlide.data.element.dataset.pswpCaption || '';
+              }
+              el.innerHTML = caption ? `<div style="padding:12px 0 0 0;text-align:center;color:#fff;background:rgba(0,0,0,0.7);font-size:1.1em;">${caption}</div>` : '';
+            });
+          }
+        });
+      });
+      lightbox.init();
+    }
+    buildGallery();
+  </script>
+</body>
+</html>
