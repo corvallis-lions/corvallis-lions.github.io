@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f8f8; margin: 0; }
-    header { background: #003366; color: #fff; padding: 32px 0 16px 0; text-align: center; }
+    header { background: #003366; color: #fff; padding: 32px 0 16px 0; display: flex; align-items: center; justify-content: center; gap: 32px; text-align: left; }
+    header img { max-width: 110px; max-height: 110px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); background: #fff; margin: 0; flex-shrink: 0; }
     header h1 { margin: 0 0 8px 0; font-size: 2.5em; }
     header p { margin: 0; font-size: 1.2em; }
     nav { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin: 32px auto 0 auto; max-width: 600px; border-radius: 8px; }
@@ -20,14 +21,18 @@
     main { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 32px; }
     @media (max-width: 700px) {
       main, nav { max-width: 98vw; padding: 12px; }
-      header { padding: 24px 0 8px 0; }
+      header { padding: 24px 0 8px 0; flex-direction: column; gap: 12px; text-align: center; }
+      header img { margin-bottom: 0; }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Corvallis Lions Club</h1>
-    <p>Digital Archive &mdash; Preserving Service, Community, and History</p>
+    <img src="assets/corvallis_lions_logo_2025.png" alt="Corvallis Lions Club Logo" />
+    <div>
+      <h1>Corvallis Lions Club</h1>
+      <p>Digital Archive &mdash; Preserving Service, Community, and History</p>
+    </div>
   </header>
   <main>
     <h2>Welcome</h2>
