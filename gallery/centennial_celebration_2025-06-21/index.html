@@ -16,17 +16,18 @@
     .gallery-item {
       background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,51,160,0.08);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      border: 2px solid #F9B000;
     }
     .thumb-wrapper {
       position: relative;
       width: 100%;
       aspect-ratio: 4/3;
-      background: #eee;
+      background: #f0f6ff;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -42,11 +43,11 @@
     }
     .caption {
       min-height: 48px;
-      max-height: 64px;
+      height: 48px;
       padding: 12px;
       font-size: 1em;
-      color: #333;
-      background: #fafafa;
+      color: #0033A0;
+      background: #F9B000;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
@@ -55,11 +56,22 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      flex-grow: 1;
+    }
+    h1 {
+      color: #0033A0;
+      letter-spacing: 0.01em;
     }
   </style>
 </head>
 <body>
-  <h1 style="text-align:center; margin-top:24px;">Centennial Celebration 2025-06-21</h1>
+  <div style="text-align:center; margin-top:24px;">
+    <div style="font-size:2em; font-weight:800; color:#0033A0; letter-spacing:0.01em; margin-bottom:2px;">Corvallis Lions Club</div>
+    <h1 style="margin:0; color:#0033A0; letter-spacing:0.01em;">Centennial Celebration</h1>
+    <div style="font-size:1em; color:#0033A0; margin-top:2px; opacity:0.75;">2025-06-21</div>
+  </div>
   <div class="gallery" id="gallery">
     <!-- Gallery items will be inserted here by JS -->
   </div>
