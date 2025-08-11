@@ -120,7 +120,8 @@
   </style>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Who We Are</h2>
-      <div style="color:#222; font-size:1.05em;">We are a group of local volunteers dedicated to service, community improvement, and helping those in need. As part of Lions Clubs International, we support sight, youth, hunger, and the environment.</div>
+      <div style="color:#222; font-size:1.05em;">We are a group of local volunteers dedicated to service, community improvement, and helping those in need. As part of Lions Clubs International, we support sight, hearing, youth, hunger, and the environment.<br>
+      <span style="display:inline-block; margin-top:0.5em;">Need help with eyeglasses? <a href="https://e-clubhouse.org/userfiles/25402/file/2019_LEAPApp_Fillable.pdf" target="_blank" style="color:#0033A0; text-decoration:underline;">Apply for support through our Eyeglass Assistance Program</a>.</span></div>
     </section>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Join Us</h2>
@@ -128,7 +129,13 @@
     </section>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Events</h2>
-      <div style="color:#222; font-size:1.05em;">We host service projects, fundraisers, and community events throughout the year. <br>Check our <a href="/gallery/" style="color:#0033A0; text-decoration:underline;">Photo Gallery</a> for highlights from recent activities.</div>
+      <div style="color:#222; font-size:1.05em;">We host service projects, fundraisers, and community events throughout the year. <br>Check our <a href="/gallery/" style="color:#0033A0; text-decoration:underline;">Photo Gallery</a> for history and recent activities.</div>
+    </section>
+    <section id="fundraising-section" style="margin-bottom:1.5em;">
+      <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Fundraising</h2>
+      <div style="color:#0055a5; font-size:1.01em; margin-bottom:0.7em; font-weight:500;">We are strictly volunteers: 100% of funds raised go to benefit the community.</div>
+      <ul id="fundraising-list" style="color:#222; font-size:1.05em; padding-left:1.2em; margin:0;"></ul>
+      <div id="fundraising-loading" style="color:#888; font-size:0.98em; padding:0.5em 0;">Loading fundraising events…</div>
     </section>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Meetings</h2>
@@ -166,5 +173,36 @@
       </ul>
     </section>
   </main>
+  <script>
+    // Load fundraising events from fundraising_events.json
+    (function() {
+      fetch('fundraising_events.json')
+        .then(r => r.json())
+        .then(events => {
+          const list = document.getElementById('fundraising-list');
+          const loading = document.getElementById('fundraising-loading');
+          if (!Array.isArray(events) || !events.length) {
+            loading.textContent = 'No fundraising events at this time.';
+            return;
+          }
+          loading.style.display = 'none';
+          list.innerHTML = '';
+          events.forEach(ev => {
+            const li = document.createElement('li');
+            li.style.marginBottom = '0.7em';
+            let locationHtml = ev.location;
+            if (ev.map) {
+              locationHtml = `<a href="${ev.map}" target="_blank" style="color:#0033A0; text-decoration:underline;">${ev.location}</a>`;
+            }
+            li.innerHTML = `<strong>${ev.title}</strong><br><span style=\"color:#0033A0;\">${ev.date}</span><br>${locationHtml}`;
+            list.appendChild(li);
+          });
+        })
+        .catch(() => {
+          const loading = document.getElementById('fundraising-loading');
+          loading.textContent = 'Could not load fundraising events.';
+        });
+    })();
+  </script>
 </body>
 </html>
