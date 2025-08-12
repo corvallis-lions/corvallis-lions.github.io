@@ -3,12 +3,28 @@
     "title": "Corvallis Fall Festival — Lions Burger Barn",
     "date": "September 27-28, 2025",
     "location": "Central Park",
-    "map": "https://maps.google.com/?q=Central+Park,+Corvallis,+OR"
+    "map": "https://maps.google.com/?q=Central+Park,+Corvallis,+OR",
+    "link": "https://www.corvallisfallfestival.org/"
   },
   {
     "title": "See's Candy Sale",
     "date": "Thanksgiving to Christmas",
     "location": "Rice's Pharmacy",
-    "map": "https://maps.google.com/?q=Rice's+Pharmacy,+Corvallis,+OR"
+    "map": "https://maps.google.com/?q=Rice's+Pharmacy,+Corvallis,+OR",
+    "link": "https://e-clubhouse.org/sites/corvallis/page-7.php"
+  },
+  {
+    "title": "2025 Albany Beer 'Run'",
+    "date": "September 6, 2025",
+    "location": "Albany, OR",
+    "map": "",
+    "link": "https://www.omroadrace.org/albany-beer-run"
+  },
+  {
+    "title": "Benton County Fair, Burger Barn",
+    "date": "July 29th to August 1st, 2026",
+    "location": "Benton County Fairgrounds",
+    "map": "https://maps.google.com/?q=Benton+County+Fairgrounds,+Corvallis,+OR",
+    "link": "https://www.bentoncountyfair.net/"
   }
 ]

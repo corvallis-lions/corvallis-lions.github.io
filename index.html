@@ -127,19 +127,19 @@
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Join Us</h2>
       <div style="color:#222; font-size:1.05em;">Interested in making a difference? New members are always welcome! <br>Contact us or visit a meeting to learn more about joining the Corvallis Lions Club.</div>
     </section>
-    <section style="margin-bottom:1.5em;">
-      <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Events</h2>
-      <div style="color:#222; font-size:1.05em;">We host service projects, fundraisers, and community events throughout the year. <br>Check our <a href="/gallery/" style="color:#0033A0; text-decoration:underline;">Photo Gallery</a> for history and recent activities.</div>
-    </section>
     <section id="fundraising-section" style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Fundraising</h2>
-      <div style="color:#0055a5; font-size:1.01em; margin-bottom:0.7em; font-weight:500;">We are strictly volunteers: 100% of funds raised go to benefit the community.</div>
+      <div style="color:#0055a5; font-size:1.01em; margin-bottom:0.7em; font-weight:500;">Please support our fundraisers.  We are strictly volunteers: 100% of funds raised and tips go to benefit the kids and the community.</div>
       <ul id="fundraising-list" style="color:#222; font-size:1.05em; padding-left:1.2em; margin:0;"></ul>
       <div id="fundraising-loading" style="color:#888; font-size:0.98em; padding:0.5em 0;">Loading fundraising events…</div>
     </section>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Meetings</h2>
       <div style="color:#222; font-size:1.05em;">We meet at 5:30pm on the 2nd and 4th Wednesday of each month.<br>Location: <a href="https://maps.google.com/?q=Benchwarmers+Bar+%26+Grill,+1895+NW+9th+St,+Corvallis,+OR" target="_blank" style="color:#0033A0; text-decoration:underline;">Benchwarmers Bar &amp; Grill, 1895 NW 9th St, Corvallis, OR</a></div>
+    </section>
+    <section style="margin-bottom:1.5em;">
+      <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Photo Gallery</h2>
+      <div style="color:#222; font-size:1.05em;">We host service projects, fundraisers, and community events throughout the year. <br>Check our <a href="/gallery/" style="color:#0033A0; text-decoration:underline;">Photo Gallery</a> for history and recent activities.</div>
     </section>
     <section style="margin-top:2.5em;">
       <h3 style="color:#0033A0;">Documents</h3>
@@ -168,7 +168,7 @@
           <a href="https://www.lionsclubs.org/" target="_blank" style="color:#0033A0; text-decoration:underline;">Lions Clubs International</a>
         </li>
         <li>
-          <a href="https://e-clubhouse.org/sites/corvallisor/" target="_blank" style="color:#0033A0; text-decoration:underline;">Corvallis Lions e-Clubhouse</a>
+          <a href="https://e-clubhouse.org/sites/corvallis/" target="_blank" style="color:#0033A0; text-decoration:underline;">Corvallis Lions e-Clubhouse</a>
         </li>
       </ul>
     </section>
@@ -190,11 +190,15 @@
           events.forEach(ev => {
             const li = document.createElement('li');
             li.style.marginBottom = '0.7em';
+            let titleHtml = ev.title;
+            if (ev.link) {
+              titleHtml = `<a href="${ev.link}" target="_blank" style="color:#0033A0; text-decoration:underline;">${ev.title}</a>`;
+            }
             let locationHtml = ev.location;
             if (ev.map) {
               locationHtml = `<a href="${ev.map}" target="_blank" style="color:#0033A0; text-decoration:underline;">${ev.location}</a>`;
             }
-            li.innerHTML = `<strong>${ev.title}</strong><br><span style=\"color:#0033A0;\">${ev.date}</span><br>${locationHtml}`;
+            li.innerHTML = `<strong>${titleHtml}</strong><br><span style=\"color:#0033A0;\">${ev.date}</span><br>${locationHtml}`;
             list.appendChild(li);
           });
         })
