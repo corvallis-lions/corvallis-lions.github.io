@@ -43,7 +43,8 @@
         item.className = 'gallery-item';
         let caption = img.caption || '';
         let mediaHtml = '';
-        if (img.src.toLowerCase().endsWith('.mp4')) {
+        const isVideo = img.src.toLowerCase().endsWith('.mp4') || img.src.toLowerCase().endsWith('.webm');
+        if (isVideo) {
           mediaHtml = `<a href="${img.src}" data-pswp-width="${img.w || 1280}" data-pswp-height="${img.h || 720}" data-pswp-type="video" data-pswp-caption="${caption}"><video src="${img.src}" muted playsinline preload="metadata"></video></a>`;
         } else {
           mediaHtml = `<a href="${img.src}" data-pswp-width="${img.w || 1280}" data-pswp-height="${img.h || 720}" data-pswp-caption="${caption}"><img src="${img.src}" alt="Photo ${idx+1}"></a>`;
@@ -58,8 +59,7 @@
       const PhotoSwipeLightbox = (await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js')).default;
       const PhotoSwipe = (await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js')).default;
       const lightbox = new PhotoSwipeLightbox({
-        gallery: '#gallery',
-        children: 'a',
+        dataSource: images,
         pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js'),
         showHideAnimationType: 'fade',
       });
@@ -85,16 +85,21 @@
         });
       });
 
-      // Video support: replace image with video in PhotoSwipe
-      lightbox.on('contentLoad', (e) => {
+      // Video support: provide custom content for .mp4 slides
+      lightbox.on('content', (e) => {
         if (e.slide && e.slide.data && e.slide.data.type === 'video') {
           const video = document.createElement('video');
           video.src = e.slide.data.src;
           video.controls = true;
+          video.autoplay = true;
           video.style.maxWidth = '100%';
           video.style.maxHeight = '80vh';
-          e.content.element.innerHTML = '';
-          e.content.element.appendChild(video);
+          e.preventDefault();
+          e.content = {
+            type: 'video',
+            element: video,
+            hasContent: true
+          };
         }
       });
       lightbox.init();
