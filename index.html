@@ -62,18 +62,74 @@
             const slideDiv = document.createElement('div');
             slideDiv.className = 'hero-slide';
             slideDiv.style.display = i === 0 ? 'block' : 'none';
+            // Add data-position attribute for later use
             slideDiv.innerHTML = `
-              <img src="${slide.src}" alt="${slide.alt || ''}" />
+              <img src="${slide.src}" alt="${slide.alt || ''}" data-position="${slide.position || ''}">
               <div class="hero-caption">${slide.caption || ''}</div>
             `;
             container.appendChild(slideDiv);
           });
+          // Dynamically set object-fit and object-position for each image
+          const imgs = container.querySelectorAll('.hero-slide img');
+          imgs.forEach(img => {
+            img.onload = function() {
+              const pos = img.getAttribute('data-position');
+              if (img.naturalHeight > img.naturalWidth) {
+                img.style.objectFit = 'contain';
+                img.style.background = '#e6e6e6';
+                img.style.objectPosition = pos === 'top' ? 'top' : 'center';
+              } else {
+                img.style.objectFit = 'cover';
+                img.style.background = '';
+                img.style.objectPosition = pos === 'top' ? 'top' : 'center';
+              }
+            };
+            if (img.complete) img.onload();
+          });
           const slides = container.querySelectorAll('.hero-slide');
           let idx = 0;
           function showSlide(i) {
-            slides.forEach((slide, j) => {
-              slide.style.display = (i === j) ? 'block' : 'none';
-            });
+        slides.forEach((slide, j) => {
+          slide.style.display = (i === j) ? 'block' : 'none';
+          if (i === j) {
+            const img = slide.querySelector('img');
+            // Remove portrait-bg class and background first
+            slide.classList.remove('portrait-bg');
+            slide.style.removeProperty('--portrait-bg-url');
+            if (img && img.naturalWidth && img.naturalHeight) {
+              const w = img.naturalWidth;
+              const h = img.naturalHeight;
+              const isPortrait = h > w;
+              console.log(`Hero slide: src=${img.src}, width=${w}, height=${h}, isPortrait=${isPortrait}`);
+              if (isPortrait) {
+                slide.classList.add('portrait-bg');
+                slide.style.setProperty('--portrait-bg-url', `url('${img.src}')`);
+                console.log('Applied .portrait-bg and blurred background.');
+              } else {
+                console.log('No blurred background applied (not portrait).');
+              }
+            } else {
+              // If image not loaded yet, wait for it
+              img.onload = function() {
+                const w = img.naturalWidth;
+                const h = img.naturalHeight;
+                const isPortrait = h > w;
+                console.log(`Hero slide (onload): src=${img.src}, width=${w}, height=${h}, isPortrait=${isPortrait}`);
+                if (isPortrait) {
+                  slide.classList.add('portrait-bg');
+                  slide.style.setProperty('--portrait-bg-url', `url('${img.src}')`);
+                  console.log('Applied .portrait-bg and blurred background.');
+                } else {
+                  console.log('No blurred background applied (not portrait).');
+                }
+              };
+            }
+          } else {
+            // Remove portrait-bg from hidden slides
+            slide.classList.remove('portrait-bg');
+            slide.style.removeProperty('--portrait-bg-url');
+          }
+        });
           }
           function nextSlide() {
             idx = (idx + 1) % slides.length;
@@ -90,14 +146,30 @@
   <style>
     #hero-slideshow { position: relative; width: 100vw; max-width: 100vw; min-height: 180px; }
     .hero-slide { position: relative; transition: opacity 0.7s; }
+    .hero-slide.portrait-bg::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center;
+      background-image: var(--portrait-bg-url, none);
+      filter: blur(24px) brightness(0.85);
+      opacity: 0.85;
+      pointer-events: none;
+      transition: background-image 0.3s;
+      background-image: var(--portrait-bg);
+    }
     .hero-slide img {
+      display: block;
       width: 100%;
       height: auto;
       max-height: 340px;
       object-fit: cover;
-      object-position: center 30%; /* Favor upper/middle content for better faces/composition */
+      object-position: center;
       position: relative;
       z-index: 1;
+      margin: 0 auto;
     }
     .hero-slide::after {
       content: '';
@@ -122,7 +194,14 @@
     }
     @media (max-width: 700px) {
       #hero-slideshow { min-height: 120px; }
-      .hero-slide img { max-height: 160px; }
+      .hero-slide img {
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 160px;
+        height: auto;
+        object-fit: cover;
+        object-position: center;
+      }
       .hero-caption { font-size: 1em; padding: 0.4em 0.8em; }
     }
   </style>

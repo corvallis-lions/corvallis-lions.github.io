@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Table Refinishing Project Photo Gallery</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css">
+  <title>Road Cleanup Project Photo Gallery</title>
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-77ZBFX17WD"></script>
   <script>
@@ -34,8 +34,8 @@
         <a href="../index.html" class="back-link">&larr; Back to Gallery Index</a>
       </div>
       <div class="club-title">Corvallis Lions Club</div>
-      <h1>Table Refinishing Project Photo Gallery</h1>
-      <div style="font-size:1em; color:#0033A0; margin-top:2px; opacity:0.75;">2023-06-04</div>
+      <h1>Road Cleanup Project Photo Gallery</h1>
+      <div style="font-size:1em; color:#0033A0; margin-top:2px; opacity:0.75;">2024-06-29</div>
     </div>
     <div class="tip">Tip: Click any image to view it larger and start the slideshow.</div>
     <div class="gallery-grid" id="gallery"></div>
@@ -82,7 +82,7 @@
               if (currSlide && currSlide.data && currSlide.data.element) {
                 caption = currSlide.data.element.dataset.pswpCaption || '';
               }
-              el.innerHTML = caption ? `<div style="padding:12px 0 0 0;text-align:center;color:#fff;background:rgba(0,0,0,0.7);font-size:1.1em;">${caption}</div>` : '';
+              el.innerHTML = caption ? `<div style=\"padding:12px 0 0 0;text-align:center;color:#fff;background:rgba(0,0,0,0.7);font-size:1.1em;\">${caption}</div>` : '';
             });
           }
         });
