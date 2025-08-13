@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Refinishing Project (2023-06-04) – Corvallis Lions Club</title>
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+  <style>
+    body { font-family: sans-serif; background: #f8f8f8; margin: 0; }
+    .gallery-container {
+      max-width: 900px;
+      margin: 48px auto 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,51,160,0.07);
+      border: 2px solid #F9B000;
+      padding: 32px 24px 32px 24px;
+    }
+    h1 {
+      color: #0033A0;
+      text-align: center;
+      font-size: 2em;
+      margin-top: 0;
+      margin-bottom: 0.5em;
+      letter-spacing: 0.01em;
+    }
+    .club-title {
+      color: #0033A0;
+      font-size: 1.3em;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 0.2em;
+      letter-spacing: 0.01em;
+    }
+    .gallery-desc {
+      text-align: center;
+      color: #0055a5;
+      font-size: 1.08em;
+      margin-bottom: 1.5em;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 2em;
+    }
+    .gallery-thumb {
+      position: relative;
+      background: #f0f6ff;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #F9B00022;
+      transition: box-shadow 0.2s, border 0.2s;
+      cursor: pointer;
+    }
+    .gallery-thumb:hover {
+      box-shadow: 0 4px 18px rgba(0,51,160,0.13);
+      border: 2px solid #F9B000;
+    }
+    .gallery-thumb img, .gallery-thumb video {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+    .caption {
+      background: rgba(0,51,160,0.07);
+      color: #0033A0;
+      font-size: 1em;
+      padding: 6px 10px;
+      border-radius: 0 0 8px 8px;
+      text-align: center;
+      min-height: 2.2em;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5em;
+      font-size: 1.08em;
+    }
+    .nav-links a {
+      color: #0033A0;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    .footer {
+      text-align: center;
+      color: #888;
+      margin-top: 48px;
+      font-size: 0.98em;
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery-container">
+    <div class="nav-links">
+      <a href="../index.html">&larr; Back to Gallery Index</a>
+    </div>
+    <div class="club-title">Corvallis Lions Club</div>
+    <h1>Table Refinishing Project</h1>
+    <div class="gallery-desc">Photos and videos from the table refinishing project (June 4, 2023)</div>
+    <div style="text-align:center; color:#0033A0; font-size:1em; margin-bottom:1.2em; background:#f0f6ff; border-radius:6px; padding:0.6em 1em; max-width:500px; margin-left:auto; margin-right:auto;">
+      <strong>Tip:</strong> Click any photo or video to view it larger and start the slideshow.
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+  <div class="footer">
+    &copy; 2025 Corvallis Lions Club
+  </div>
+  <script src="https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js" type="module"></script>
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js';
+    fetch('images.json')
+      .then(r => r.json())
+      .then(images => {
+        const grid = document.getElementById('gallery-grid');
+        images.forEach((img, idx) => {
+          let el = document.createElement('a');
+          el.href = img.src;
+          el.setAttribute('data-pswp-width', img.w || 1280);
+          el.setAttribute('data-pswp-height', img.h || 720);
+          if (img.src.toLowerCase().endsWith('.mp4')) {
+            el.setAttribute('data-pswp-type', 'video');
+            el.className = 'gallery-thumb';
+            el.innerHTML = `<video src="${img.src}" muted playsinline preload="metadata"></video><div class="caption">${img.caption || ''}</div>`;
+          } else {
+            el.className = 'gallery-thumb';
+            el.innerHTML = `<img src="${img.src}" alt="" loading="lazy"><div class="caption">${img.caption || ''}</div>`;
+          }
+          grid.appendChild(el);
+        });
+        const lightbox = new PhotoSwipeLightbox({
+          dataSource: images,
+          pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js'),
+          showHideAnimationType: 'zoom',
+          padding: { top: 40, bottom: 40, left: 20, right: 20 },
+        });
+        lightbox.on('contentLoad', (e) => {
+          if (e.slide && e.slide.data && e.slide.data.type === 'video') {
+            // Only customize for video, let PhotoSwipe handle images
+            const video = document.createElement('video');
+            video.src = e.slide.data.src;
+            video.controls = true;
+            video.style.maxWidth = '100%';
+            video.style.maxHeight = '80vh';
+            e.content.element.appendChild(video);
+          }
+        });
+        lightbox.init();
+      });
+  </script>
+</body>
+</html>
