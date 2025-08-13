@@ -4,8 +4,9 @@ import json
 from PIL import Image
 from PIL.ExifTags import TAGS
 
+
 gallery_dir = os.path.dirname(__file__)
-image_files = [f for f in os.listdir(gallery_dir) if f.lower().endswith('.jpg') or f.lower().endswith('.mp4')]
+image_files = [f for f in os.listdir(gallery_dir) if f.lower().endswith('.jpg') or f.lower().endswith('.mp4') or f.lower().endswith('.webm')]
 
 images = []
 for fname in sorted(image_files):
@@ -40,7 +41,7 @@ for fname in sorted(image_files):
                 'h': 1067,
                 'caption': ''
             })
-    elif fname.lower().endswith('.mp4'):
+    elif fname.lower().endswith('.mp4') or fname.lower().endswith('.webm'):
         # Try to get video metadata (width/height) using ffprobe if available
         width = 0
         height = 0
@@ -58,7 +59,7 @@ for fname in sorted(image_files):
                 if streams:
                     width = streams[0].get('width', 0)
                     height = streams[0].get('height', 0)
-            # Attempt to extract a title/description (not common in mp4)
+            # Attempt to extract a title/description (not common in mp4/webm)
             cmd_caption = f"ffprobe -v error -show_entries format_tags=title,comment -of default=noprint_wrappers=1:nokey=1 {shlex.quote(path)}"
             result_caption = subprocess.run(cmd_caption, shell=True, capture_output=True, text=True)
             if result_caption.returncode == 0:
@@ -71,7 +72,8 @@ for fname in sorted(image_files):
             'src': fname,
             'w': width,
             'h': height,
-            'caption': caption.replace('_', ' ')
+            'caption': caption.replace('_', ' '),
+            'type': 'video'
         })
 
 with open('images.json', 'w', encoding='utf-8') as f:

@@ -10,8 +10,8 @@
     main { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 32px; }
     h1 { color: #0033A0; font-size: 2em; margin-bottom: 0.2em; }
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-    .gallery-item { position: relative; background: #eee; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin-bottom: 0; }
-    .gallery-item img, .gallery-item video { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .gallery-item { position: relative; background: #eee; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .gallery-item img { width: 100%; height: 180px; object-fit: cover; display: block; }
     .caption { background: rgba(0,51,160,0.82); color: #fff; font-size: 1em; padding: 0.5em 1em; position: absolute; left: 0; right: 0; bottom: 0; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.18); }
     .tip { color: #888; font-size: 0.98em; margin: 1.5em 0 0.5em 0; text-align: center; }
     .club-title { color: #0033A0; font-size: 1.3em; font-weight: 800; text-align: center; margin-bottom: 0.2em; letter-spacing: 0.01em; }
@@ -29,7 +29,7 @@
       <h1>Table Refinishing Project Photo Gallery</h1>
       <div style="font-size:1em; color:#0033A0; margin-top:2px; opacity:0.75;">2023-06-04</div>
     </div>
-    <div class="tip">Tip: Click any photo or video to view it larger and start the slideshow.</div>
+    <div class="tip">Tip: Click any image to view it larger and start the slideshow.</div>
     <div class="gallery-grid" id="gallery"></div>
     <div class="footer">&copy; 2025 Corvallis Lions Club</div>
   </main>
@@ -42,24 +42,19 @@
         const item = document.createElement('div');
         item.className = 'gallery-item';
         let caption = img.caption || '';
-        let mediaHtml = '';
-        const isVideo = img.src.toLowerCase().endsWith('.mp4') || img.src.toLowerCase().endsWith('.webm');
-        if (isVideo) {
-          mediaHtml = `<a href="${img.src}" data-pswp-width="${img.w || 1280}" data-pswp-height="${img.h || 720}" data-pswp-type="video" data-pswp-caption="${caption}"><video src="${img.src}" muted playsinline preload="metadata"></video></a>`;
-        } else {
-          mediaHtml = `<a href="${img.src}" data-pswp-width="${img.w || 1280}" data-pswp-height="${img.h || 720}" data-pswp-caption="${caption}"><img src="${img.src}" alt="Photo ${idx+1}"></a>`;
-        }
         item.innerHTML = `
-          ${mediaHtml}
+          <a href="${img.src}" data-pswp-width="${img.w}" data-pswp-height="${img.h}" data-pswp-caption="${caption}">
+            <img src="${img.src}" alt="Photo ${idx+1}">
+          </a>
           ${caption ? `<div class="caption">${caption}</div>` : ''}
         `;
         gallery.appendChild(item);
       });
 
       const PhotoSwipeLightbox = (await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe-lightbox.esm.min.js')).default;
-      const PhotoSwipe = (await import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js')).default;
       const lightbox = new PhotoSwipeLightbox({
-        dataSource: images,
+        gallery: '#gallery',
+        children: 'a',
         pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js'),
         showHideAnimationType: 'fade',
       });
@@ -83,24 +78,6 @@
             });
           }
         });
-      });
-
-      // Video support: provide custom content for .mp4 slides
-      lightbox.on('content', (e) => {
-        if (e.slide && e.slide.data && e.slide.data.type === 'video') {
-          const video = document.createElement('video');
-          video.src = e.slide.data.src;
-          video.controls = true;
-          video.autoplay = true;
-          video.style.maxWidth = '100%';
-          video.style.maxHeight = '80vh';
-          e.preventDefault();
-          e.content = {
-            type: 'video',
-            element: video,
-            hasContent: true
-          };
-        }
       });
       lightbox.init();
     }
