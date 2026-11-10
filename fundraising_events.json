@@ -1,30 +1,30 @@
 [
   {
+    "title": "See's Candy Sale",
+    "date": "Thanksgiving to Christmas",
+    "location": "Rice's Pharmacy",
+    "map": "https://maps.google.com/?q=Rice's+Pharmacy,+Corvallis,+OR",
+    "link": "https://e-clubhouse.org/sites/corvallis/page-7.php"
+  },
+  {
     "title": "Mother's Day Burst's Chocolate Sale at Rice's Pharmacy",
-    "date": "May 4th to May 9th, 2026",
+    "date": "May 3rd to May 8th, 2027",
     "location": "Rice's Pharmacy",
     "map": "https://maps.google.com/?q=Rice's+Pharmacy,+Corvallis,+OR",
     "link": ""
   },
   {
     "title": "Benton County Fair, Burger Barn",
-    "date": "July 29th to August 1st, 2026",
+    "date": "August 4th to August 7th, 2027",
     "location": "Benton County Fairgrounds",
     "map": "https://maps.google.com/?q=Benton+County+Fairgrounds,+Corvallis,+OR",
     "link": "https://www.bentoncountyfair.net/"
   },
   {
     "title": "Corvallis Fall Festival — Lions Burger Barn",
-    "date": "September 26-27, 2026",
+    "date": "September 25-26, 2027",
     "location": "Central Park",
     "map": "https://maps.google.com/?q=Central+Park,+Corvallis,+OR",
     "link": "https://www.corvallisfallfestival.org/"
-  },
-  {
-    "title": "See's Candy Sale",
-    "date": "Thanksgiving to Christmas",
-    "location": "Rice's Pharmacy",
-    "map": "https://maps.google.com/?q=Rice's+Pharmacy,+Corvallis,+OR",
-    "link": "https://e-clubhouse.org/sites/corvallis/page-7.php"
   }
 ]
