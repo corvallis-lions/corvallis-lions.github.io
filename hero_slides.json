@@ -5,8 +5,8 @@
     "caption": "Centennial Celebration 2025"
   },
   {
-    "src": "gallery/vision_scanning_2024-02-21/vision_scanning-003.jpg",
-    "alt": "Lion Steve Pilkerton waiting for the next student to screen",
+    "src": "gallery/vision_screening_2026-11-13/IMG_0562.jpeg",
+    "alt": "Lions screeners using handheld vision scanners to screen a student at a local school",
     "caption": "Service: vision screening at a local school",
     "position": "top"
   },
@@ -16,13 +16,20 @@
     "caption": "Community & Fellowship"
   },
   {
+    "src": "gallery/2026_earthweek_cleanup_avery_park/IMG_7075.jpeg",
+    "alt": "Three Lions cleaning the long picnic tables at Avery Park",
+    "caption": "Earth Week at Avery Park",
+    "fit": "contain"
+  },
+  {
     "src": "gallery/centennial_celebration_2025-06-21/centennial-030.jpg",
     "alt": "Lions Club members volunteering outdoors",
     "caption": "Making a Difference"
   },
   {
-    "src": "gallery/road_cleanup_2024-06-29/cleanup-001.jpg",
-    "alt": "Lions Club members picking up trash along the roadside",
-    "caption": "Service project: road cleanup"
+    "src": "gallery/2026_earthweek_cleanup_avery_park/IMG_7081.jpeg",
+    "alt": "Lions Club members scrubbing a picnic shelter table at Avery Park",
+    "caption": "Service project: Earth Week cleanup at Avery Park",
+    "fit": "contain"
   }
 ]

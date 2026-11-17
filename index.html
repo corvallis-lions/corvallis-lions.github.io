@@ -64,7 +64,7 @@
             slideDiv.style.display = i === 0 ? 'block' : 'none';
             // Add data-position attribute for later use
             slideDiv.innerHTML = `
-              <img src="${slide.src}" alt="${slide.alt || ''}" data-position="${slide.position || ''}">
+              <img src="${slide.src}" alt="${slide.alt || ''}" data-position="${slide.position || ''}" data-fit="${slide.fit || ''}">
               <div class="hero-caption">${slide.caption || ''}</div>
             `;
             container.appendChild(slideDiv);
@@ -74,7 +74,7 @@
           imgs.forEach(img => {
             img.onload = function() {
               const pos = img.getAttribute('data-position');
-              if (img.naturalHeight > img.naturalWidth) {
+              if (img.naturalHeight > img.naturalWidth || img.getAttribute('data-fit') === 'contain') {
                 img.style.objectFit = 'contain';
                 img.style.background = '#e6e6e6';
                 img.style.objectPosition = pos === 'top' ? 'top' : 'center';
@@ -99,7 +99,7 @@
             if (img && img.naturalWidth && img.naturalHeight) {
               const w = img.naturalWidth;
               const h = img.naturalHeight;
-              const isPortrait = h > w;
+              const isPortrait = h > w || img.getAttribute('data-fit') === 'contain';
               console.log(`Hero slide: src=${img.src}, width=${w}, height=${h}, isPortrait=${isPortrait}`);
               if (isPortrait) {
                 slide.classList.add('portrait-bg');
@@ -113,7 +113,7 @@
               img.onload = function() {
                 const w = img.naturalWidth;
                 const h = img.naturalHeight;
-                const isPortrait = h > w;
+                const isPortrait = h > w || img.getAttribute('data-fit') === 'contain';
                 console.log(`Hero slide (onload): src=${img.src}, width=${w}, height=${h}, isPortrait=${isPortrait}`);
                 if (isPortrait) {
                   slide.classList.add('portrait-bg');
@@ -222,6 +222,7 @@
     </section>
     <section style="margin-bottom:1.5em;">
       <h2 style="color:#0033A0; font-size:1.15em; margin-bottom:0.3em;">Meetings</h2>
+      <div style="background:#fff4cc; border-left:4px solid #F7B500; color:#222; font-size:1.05em; padding:0.5em 0.8em; margin-bottom:0.7em;"><strong>Note:</strong> There will be no meeting on Wednesday, November 25.</div>
       <div style="color:#222; font-size:1.05em;">We meet at 6:00pm on the 2nd and 4th Wednesday of each month (5:30pm if you want to order dinner first).<br>Location: <a href="https://maps.google.com/?q=Oscar's+Tacos+Cantina,+2475+NW+9th+St,+Corvallis,+OR" target="_blank" style="color:#0033A0; text-decoration:underline;">Oscar's Tacos and Cantina, 2475 NW 9th St, Corvallis, OR</a></div>
     </section>
     <section style="margin-bottom:1.5em;">
